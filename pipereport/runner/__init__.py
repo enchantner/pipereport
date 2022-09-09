@@ -1,5 +1,5 @@
-from pipereport.runner.runner import run_from_config
+from pipereport.runner.runner import PipeRunner
 
 __all__ = [
-    'run_from_config'
+    'PipeRunner'
 ]
