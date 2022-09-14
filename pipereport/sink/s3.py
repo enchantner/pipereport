@@ -34,14 +34,11 @@ class S3Sink(BaseSink):
         with tempfile.TemporaryDirectory() as tmpdirname:
             cachefile = os.path.join(tmpdirname, object_id) 
             with open(cachefile, "w") as cache:
-                if blocksize == -1:
-                    entries = source_iterator
-                else:
-                    entries = [e[1] for e in takewhile(
-                        lambda pair: pair[0] < blocksize,
-                        enumerate(source_iterator)
-                    )]
-                for entry in entries:
-                    cache.write(entry)
+                block_written = 0
+                for entry in source_iterator:
+                    cache.write(entry + "\n")
+                    block_written += 1
+                    if block_written == blocksize:
+                        break
             self.s3.upload_file(cachefile, self.bucket, object_id)
         

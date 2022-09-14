@@ -37,7 +37,7 @@ class Template:
         tmpl_src_index = {}
         for src_attrs in tmpl_src_info:
             if "name" not in src_attrs:
-                raise Exception(f"Name not specified in template for source: {json.dumps(sink_attrs)}")
+                raise Exception(f"Name not specified in template for source: {json.dumps(src_attrs)}")
             tmpl_src_index[src_attrs["name"]] = src_attrs
 
         for sink_attrs in conf_sinks_info:
