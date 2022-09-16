@@ -1,12 +1,12 @@
-import yaml
 import os
+
+import yaml
 
 from pipereport.base.templateregistry import BaseTemplateRegistry
 from pipereport.template.template import Template
 
 
 class FSTemplateRegistry(BaseTemplateRegistry):
-
     def __init__(self, path, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.path = path

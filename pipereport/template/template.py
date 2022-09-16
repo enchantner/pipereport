@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-import json
 import importlib
+import json
 
-from pipereport.base.source import BaseSource
 from pipereport.base.sink import BaseSink
+from pipereport.base.source import BaseSource
 from pipereport.sink import get_sink
 from pipereport.telemetry.telemetry import Telemetry
 
 
 class Template:
-
     def __init__(self):
         self.sources = {}
         self.sinks = {}
@@ -32,23 +31,31 @@ class Template:
         tmpl_sinks_index = {}
         for sink_attrs in tmpl_sinks_info:
             if "name" not in sink_attrs:
-                raise Exception(f"Name not specified in template for sink: {json.dumps(sink_attrs)}")
+                raise Exception(
+                    f"Name not specified in template for sink: {json.dumps(sink_attrs)}"
+                )
             tmpl_sinks_index[sink_attrs["name"]] = sink_attrs
 
         tmpl_src_index = {}
         for src_attrs in tmpl_src_info:
             if "name" not in src_attrs:
-                raise Exception(f"Name not specified in template for source: {json.dumps(src_attrs)}")
+                raise Exception(
+                    f"Name not specified in template for source: {json.dumps(src_attrs)}"
+                )
             tmpl_src_index[src_attrs["name"]] = src_attrs
 
         for sink_attrs in conf_sinks_info:
             if "name" not in sink_attrs:
-                raise Exception(f"Name not specified in config for sink: {json.dumps(sink_attrs)}")
+                raise Exception(
+                    f"Name not specified in config for sink: {json.dumps(sink_attrs)}"
+                )
             tmpl_sinks_index[sink_attrs["name"]].update(sink_attrs)
 
         for src_attrs in conf_src_info:
             if "name" not in src_attrs:
-                raise Exception(f"Name not specified in config for source: {json.dumps(src_attrs)}")
+                raise Exception(
+                    f"Name not specified in config for source: {json.dumps(src_attrs)}"
+                )
             tmpl_src_index[src_attrs["name"]].update(src_attrs)
 
         telemetry = Telemetry()
@@ -61,7 +68,9 @@ class Template:
 
         for _, src_attrs in tmpl_src_index.items():
             try:
-                plugin = importlib.import_module(f'pipereport.source.{src_attrs["type"]}')
+                plugin = importlib.import_module(
+                    f'pipereport.source.{src_attrs["type"]}'
+                )
             except ImportError:
                 # todo: explicit handle
                 raise
@@ -70,4 +79,3 @@ class Template:
                 src.add_sink(sinks[sink_name])
             tmpl.add_source(src)
         return tmpl
-
