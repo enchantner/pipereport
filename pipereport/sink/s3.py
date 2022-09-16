@@ -1,7 +1,7 @@
 import os
 import tempfile
 from itertools import takewhile
-from typing import Iterator
+from typing import Iterator, List, Optional
 
 import boto3
 
@@ -30,7 +30,8 @@ class S3Sink(BaseSink):
         self.session = boto3.session.Session()
         self.s3 = self.session.client(**self.client_args)
 
-    def write_block(self, source_iterator: Iterator[str], object_id: str, blocksize: int=-1):
+    def write_block(self, source_iterator: Iterator[str], object_id: str, blocksize: int=-1, columns: Optional[List[str]] = None):
+        self.telemetry.add_object(object_id, columns)
         with tempfile.TemporaryDirectory() as tmpdirname:
             cachefile = os.path.join(tmpdirname, object_id) 
             with open(cachefile, "w") as cache:
@@ -40,5 +41,6 @@ class S3Sink(BaseSink):
                     block_written += 1
                     if block_written == blocksize:
                         break
+                self.telemetry.add_entries(object_id, block_written)
             self.s3.upload_file(cachefile, self.bucket, object_id)
         

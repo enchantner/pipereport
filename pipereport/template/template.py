@@ -6,6 +6,7 @@ import importlib
 from pipereport.base.source import BaseSource
 from pipereport.base.sink import BaseSink
 from pipereport.sink import get_sink
+from pipereport.telemetry.telemetry import Telemetry
 
 
 class Template:
@@ -50,9 +51,11 @@ class Template:
                 raise Exception(f"Name not specified in config for source: {json.dumps(src_attrs)}")
             tmpl_src_index[src_attrs["name"]].update(src_attrs)
 
+        telemetry = Telemetry()
         sinks = {}
         for sink_name, sink_attrs in tmpl_sinks_index.items():
             sink = get_sink(sink_attrs["type"])(**sink_attrs)
+            sink.enable_telemetry(telemetry)
             tmpl.add_sink(sink)
             sinks[sink_name] = sink
 
