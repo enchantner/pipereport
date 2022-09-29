@@ -3,6 +3,8 @@ from __future__ import annotations
 import importlib
 import json
 
+from copy import deepcopy
+
 from pipereport.base.sink import BaseSink
 from pipereport.base.source import BaseSource
 from pipereport.sink import get_sink
@@ -13,12 +15,16 @@ class Template:
     def __init__(self):
         self.sources = {}
         self.sinks = {}
+        self.compiled = {}
 
     def add_source(self, source: BaseSource):
         self.sources[source.name] = source
 
     def add_sink(self, sink: BaseSink):
         self.sinks[sink.name] = sink
+
+    def __str__(self):
+        return json.dumps(self.compiled, indent=4)
 
     @staticmethod
     def parse_with_config(template_dict: dict, config: dict) -> Template:
@@ -58,7 +64,12 @@ class Template:
                 )
             tmpl_src_index[src_attrs["name"]].update(src_attrs)
 
+
         telemetry = Telemetry()
+
+        tmpl.compiled = deepcopy(template_dict)
+
+
         sinks = {}
         for sink_name, sink_attrs in tmpl_sinks_index.items():
             sink = get_sink(sink_attrs["type"])(**sink_attrs)
