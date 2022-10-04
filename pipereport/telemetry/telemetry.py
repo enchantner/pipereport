@@ -14,5 +14,8 @@ class Telemetry:
         if object_id in self.objects:
             self.objects[object_id]["entries"] += entries
 
+    def dump(self):
+        return self.objects
+
     def __str__(self):
-        return json.dumps(self.objects)
+        return json.dumps(self.dump())

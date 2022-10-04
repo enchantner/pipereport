@@ -29,3 +29,7 @@ class PipeRunner:
                 pass
             src.connect_sinks()
             src.run()
+        return {
+            sn: sink.telemetry.dump()
+            for sn, sink in tmpl.sinks.items()
+        } 

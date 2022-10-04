@@ -28,6 +28,10 @@ class BaseSink(ABC):
             )
         return credentials[credential_name]
 
+    @property
+    def telemetry_enabled(self):
+        return self.telemetry is not None
+
     def enable_telemetry(self, telemetry: Telemetry):
         self.telemetry = telemetry
 

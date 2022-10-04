@@ -64,11 +64,9 @@ class Template:
                 )
             tmpl_src_index[src_attrs["name"]].update(src_attrs)
 
-
         telemetry = Telemetry()
 
         tmpl.compiled = deepcopy(template_dict)
-
 
         sinks = {}
         for sink_name, sink_attrs in tmpl_sinks_index.items():
