@@ -1,8 +1,5 @@
-import sys
 from typing import Optional
-
 from pipereport.base.templateregistry import BaseTemplateRegistry
-
 from pipereport.template.template import Template
 from pipereport.template.registry import GitFSTemplateRegistry
 
@@ -17,7 +14,7 @@ class PipeRunner:
     def print_config(self, config: dict):
         tmpl_dict = self.template_registry.get_template_by_name(config['template_name'])
         tmpl = Template.parse_with_config(tmpl_dict, config)
-        sys.stdout.write(str(tmpl))
+        return tmpl
          
     def run_from_config(self, config: dict):
         tmpl_dict = self.template_registry.get_template_by_name(config["template_name"])
