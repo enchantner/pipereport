@@ -4,7 +4,6 @@ from pipereport.template.template import Template
 from pipereport.template.registry import GitFSTemplateRegistry
 
 
-
 class PipeRunner:
     def __init__(self, template_registry: Optional[BaseTemplateRegistry] = None):
         self.template_registry = (
