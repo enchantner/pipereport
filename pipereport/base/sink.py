@@ -9,6 +9,7 @@ class BaseSink(ABC):
         self.attrs = kwargs
         self.name = self.required_field("name")
         self.telemetry = None
+        self.data_type = kwargs.pop("data_type", None)
 
     @abstractmethod
     def connect(self):

@@ -62,6 +62,8 @@ class Template:
                 raise Exception(
                     f"Name not specified in config for source: {json.dumps(src_attrs)}"
                 )
+            if "fields" in src_attrs:
+                raise Exception(f"Cannot override 'fields' in config for source '{src_attrs['name']}'")
             tmpl_src_index[src_attrs["name"]].update(src_attrs)
 
         telemetry = Telemetry()
@@ -83,6 +85,7 @@ class Template:
             except ImportError:
                 # todo: explicit handle
                 raise
+            plugin.Source.validate_config(src_attrs)
             src = plugin.Source(**src_attrs)
             for sink_name in src_attrs["sink_names"]:
                 src.add_sink(sinks[sink_name])

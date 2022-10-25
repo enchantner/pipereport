@@ -1,6 +1,5 @@
 import os
 import tempfile
-from itertools import takewhile
 from typing import Iterator, List, Optional, Tuple
 
 import boto3
