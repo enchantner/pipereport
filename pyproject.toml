@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pipereport"
-version = "0.0.8"
+version = "0.0.9"
 authors = [
   { name="Nikolay Markov", email="enchantner@gmail.com" },
 ]
@@ -12,6 +12,11 @@ description = "A simple data pipeline management tool"
 readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.7"
+dependencies = [
+  'boto3==1.24.68',
+  'GitPython==3.1.27',
+  'PyYAML==6.0'
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
