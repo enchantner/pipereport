@@ -30,9 +30,8 @@ class BaseSource(ABC):
             )
         return credentials[credential_name]
 
-    @abstractmethod
     def connect(self):
-        raise NotImplementedError()
+        pass
 
     def connect_sinks(self):
         for _, sink in self.sinks.items():
@@ -43,8 +42,9 @@ class BaseSource(ABC):
 
     def get_telemetry(self):
         return {sn: self.sinks[sn].telemetry for sn in self.sink_names}
- 
-    def validate_config(self, config):
+
+    @staticmethod
+    def validate_config(config):
         pass
 
     def write_block(
