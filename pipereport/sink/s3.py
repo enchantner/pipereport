@@ -40,6 +40,9 @@ class S3Sink(BaseSink):
     ):
         self.telemetry.add_object(object_id, columns)
         with tempfile.TemporaryDirectory() as tmpdirname:
+            cachefiledir = os.path.join(tmpdirname, os.path.dirname(object_id))
+            if cachefiledir and not os.path.exists(cachefiledir):
+                os.makedirs(cachefiledir)
             cachefile = os.path.join(tmpdirname, object_id)
             with open(cachefile, "w") as cache:
                 block_written = 0

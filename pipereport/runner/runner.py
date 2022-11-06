@@ -19,7 +19,7 @@ class PipeRunner:
         return tmpl
     
     def print_config(self, config: dict):
-        sys.stdout.write(str(self.render_config(dict)))
+        sys.stdout.write(str(self.render_config(config)))
          
     def run_from_config(self, config: dict):
         tmpl_dict = self.template_registry.get_template_by_name(config["template_name"])

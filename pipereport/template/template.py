@@ -55,6 +55,9 @@ class Template:
                 raise Exception(
                     f"Name not specified in config for sink: {json.dumps(sink_attrs)}"
                 )
+            if "parameters" in sink_attrs and "parameters" in tmpl_sinks_index[sink_attrs["name"]]:
+                tmpl_sinks_index[sink_attrs["name"]]["parameters"].update(sink_attrs["parameters"])
+                del sink_attrs["parameters"]
             tmpl_sinks_index[sink_attrs["name"]].update(sink_attrs)
 
         for src_attrs in conf_src_info:
@@ -64,6 +67,9 @@ class Template:
                 )
             if "fields" in src_attrs:
                 raise Exception(f"Cannot override 'fields' in config for source '{src_attrs['name']}'")
+            if "parameters" in src_attrs and "parameters" in tmpl_src_index[src_attrs["name"]]:
+                tmpl_src_index[src_attrs["name"]]["parameters"].update(src_attrs["parameters"])
+                del src_attrs["parameters"]
             tmpl_src_index[src_attrs["name"]].update(src_attrs)
 
         telemetry = Telemetry()
