@@ -1,3 +1,8 @@
+"""
+Base template registry implementation
+"""
+
+
 from __future__ import annotations
 
 
@@ -24,4 +29,10 @@ class BaseTemplateRegistry(ABC):
 
     @abstractmethod
     def get_template_by_name(self, template_name: str) -> dict:
+        """
+        Retrieve a template from a registry and return it
+
+        Returns:
+            template (dict): template data as a dictionary
+        """
         raise NotImplementedError()
